@@ -1,8 +1,5 @@
 package com.websystique.springmvc.security;
 
-import java.util.stream.Collectors;
-
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,17 +24,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("Username not found");
         }
-        return new org.springframework.security.core.userdetails.User(
-                user.getSsoId(),
-                user.getPassword(),
-                true,
-                true,
-                true,
-                true,
-                user.getUserProfiles()
-                        .stream()
-                        .map(p -> new SimpleGrantedAuthority("ROLE_" + p.getType()))
-                        .collect(Collectors.toList())
-        );
+        return user;
     }
 }

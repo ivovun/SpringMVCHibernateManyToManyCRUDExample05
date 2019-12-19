@@ -1,5 +1,7 @@
 package com.websystique.springmvc.model;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -12,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="USER_PROFILE")
-public class UserProfile {
+public class UserProfile implements GrantedAuthority {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
@@ -51,7 +53,11 @@ public class UserProfile {
 	@Override
 	public String toString() {
 		return type;
-//		return "UserProfile [id=" + id + ", type=" + type + "]";
+	}
+
+	@Override
+	public String getAuthority() {
+		return "ROLE_" + type;
 	}
 
 	public enum UserProfileType implements Serializable{
@@ -61,7 +67,7 @@ public class UserProfile {
 
 		String userProfileType;
 
-		private UserProfileType(String userProfileType){
+		UserProfileType(String userProfileType){
 			this.userProfileType = userProfileType;
 		}
 
